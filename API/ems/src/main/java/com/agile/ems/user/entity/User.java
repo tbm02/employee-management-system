@@ -1,10 +1,14 @@
-package com.agile.ems.user;
+package com.agile.ems.user.entity;
 
+import com.agile.ems.user.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -14,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "employees")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -36,8 +40,9 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String role;
+    private Role role;
 
     @Column(name = "department_id")
     private Long departmentId;
@@ -45,8 +50,17 @@ public class User {
     @Column(nullable = false)
     private Boolean enabled;
 
+    @Column(name = "first_login", nullable = false)
+    private Boolean firstLogin;
+
+    @Column(name = "is_password_updated", nullable = false)
+    private Boolean passwordUpdated;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToOne(mappedBy = "user")
+    private UserDetails userDetails;
 
     @PrePersist
     void prePersist() {
@@ -55,6 +69,12 @@ public class User {
         }
         if (createdAt == null) {
             createdAt = LocalDateTime.now();
+        }
+        if (firstLogin == null) {
+            firstLogin = true;
+        }
+        if (passwordUpdated == null) {
+            passwordUpdated = false;
         }
     }
 }
