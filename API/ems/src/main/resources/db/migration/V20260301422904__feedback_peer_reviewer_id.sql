@@ -1,0 +1,1 @@
+ALTER TABLE session_users add column if not exists peer_reviewer_id bigint;

@@ -16,7 +16,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "session_user")
+@Table(name = "session_users")
 @Getter
 @Setter
 public class SessionUser {
