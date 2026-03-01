@@ -1,6 +1,6 @@
 package com.agile.ems.user.mapper;
 
-import com.agile.ems.user.User;
+import com.agile.ems.user.entity.User;
 import com.agile.ems.user.dto.UserRequestDto;
 import com.agile.ems.user.dto.UserResponseDto;
 import org.springframework.stereotype.Component;
@@ -18,6 +18,8 @@ public class UserMapper {
         user.setRole(requestDto.getRole());
         user.setDepartmentId(requestDto.getDepartmentId());
         user.setEnabled(requestDto.getEnabled());
+        user.setFirstLogin(true);
+        user.setPasswordUpdated(false);
         return user;
     }
 
@@ -31,6 +33,8 @@ public class UserMapper {
                 .role(user.getRole())
                 .departmentId(user.getDepartmentId())
                 .enabled(user.getEnabled())
+                .firstLogin(user.getFirstLogin())
+                .passwordUpdated(user.getPasswordUpdated())
                 .createdAt(user.getCreatedAt())
                 .build();
     }

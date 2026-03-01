@@ -1,5 +1,6 @@
 package com.agile.ems.user.dto;
 
+import com.agile.ems.user.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,12 +30,10 @@ public class UserRequestDto {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Size(max = 255, message = "Password must be at most 255 characters")
     private String password;
 
-    @NotBlank(message = "Role is required")
-    @Size(max = 50, message = "Role must be at most 50 characters")
-    private String role;
+    @NotNull(message = "Role is required")
+    private Role role;
 
     @NotNull(message = "Department ID is required")
     private Long departmentId;
