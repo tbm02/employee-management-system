@@ -1,9 +1,10 @@
 package com.agile.ems.user.entity;
 
+import com.agile.ems.audit.EntityAuditInfo;
 import com.agile.ems.user.Role;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends EntityAuditInfo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,9 +52,6 @@ public class User {
     @Column(name = "is_password_updated", nullable = false)
     private Boolean passwordUpdated;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
     @OneToOne(mappedBy = "user")
     private UserDetails userDetails;
 
@@ -68,9 +66,6 @@ public class User {
     void prePersist() {
         if (enabled == null) {
             enabled = true;
-        }
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
         }
         if (firstLogin == null) {
             firstLogin = true;

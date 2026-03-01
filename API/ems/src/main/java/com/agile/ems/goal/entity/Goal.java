@@ -1,5 +1,6 @@
 package com.agile.ems.goal.entity;
 
+import com.agile.ems.audit.EntityAuditInfo;
 import com.agile.ems.goal.enums.GoalStatus;
 import com.agile.ems.goal.enums.Quarter;
 import com.agile.ems.user.entity.User;
@@ -7,13 +8,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "goals")
 @Getter
 @Setter
-public class Goal {
+public class Goal extends EntityAuditInfo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class Goal {
     // Employee who owns goal
     // =============================
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User employee;
 
     private String description;
@@ -45,18 +46,10 @@ public class Goal {
 
     private Boolean isCompleted = false;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     @PrePersist
     public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-        status = GoalStatus.DRAFT;
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        if (status == null) {
+            status = GoalStatus.DRAFT;
+        }
     }
 }

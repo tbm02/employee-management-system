@@ -1,5 +1,6 @@
 package com.agile.ems.user.entity;
 
+import com.agile.ems.audit.EntityAuditInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "user_details")
-public class UserDetails {
+public class UserDetails extends EntityAuditInfo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
