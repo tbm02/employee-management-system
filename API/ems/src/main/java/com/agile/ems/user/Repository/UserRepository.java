@@ -1,6 +1,8 @@
 package com.agile.ems.user.Repository;
 
 import com.agile.ems.user.entity.User;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT MAX(CAST(SUBSTRING(emp_id, 8) AS INTEGER)) FROM users WHERE emp_id LIKE CONCAT('EMP', :year, '%')", nativeQuery = true)
     Integer findMaxEmpIdNumberByYear(@Param("year") String year);
+
+    List<User> findByManagerId(Long managerId);
+
+    boolean existsByManagerId(Long managerId);
+
+    boolean existsByIdAndManagerId(Long employeeId, Long managerId);
 }

@@ -10,6 +10,7 @@ import com.agile.ems.user.dto.UserRequestDto;
 import com.agile.ems.user.dto.UserResponseDto;
 import com.agile.ems.user.mapper.UserMapper;
 import com.agile.ems.utils.MailService;
+import com.agile.ems.utils.exceptions.BadRequestException;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
@@ -153,6 +154,14 @@ public class UserServiceImpl implements UserService {
             mailService.sendEmail(user.getEmail(), subject, body);
         } catch (Exception ex) {
             log.warn("Failed to send credentials email to {}: {}", user.getEmail(), ex.getMessage());
+        }
+    }
+    @Override
+    public void validateManagerOfEmployee(Long managerId, Long employeeId) {
+        boolean valid = userRepository.existsByIdAndManagerId(employeeId, managerId);
+
+        if (!valid) {
+            throw new BadRequestException("You are not manager of this employee");
         }
     }
 }

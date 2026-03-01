@@ -26,4 +26,6 @@ public interface UserService {
     boolean isEmpIdTaken(String empId);
 
     boolean isEmailTaken(String email);
+
+    void validateManagerOfEmployee(Long managerId, Long employeeId);
 }
