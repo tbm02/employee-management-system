@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -73,15 +74,15 @@ public class FeedbackSessionController {
     }
 
     /**
-     * GET /api/feedback/sessions/{sessionId}/scores
-     * Returns per-employee scores with raw averages, normalised values, and weighted composite.
-     * Weights: self=0.30, manager=0.50, peer=0.20.
+     * GET /api/feedback/sessions/{sessionId}/scores?departmentId={id}
+     * departmentId is optional — omit to get all employees, pass to filter by dept.
      */
     @GetMapping("/{sessionId}/scores")
     public ResponseEntity<ApiResponseDto<List<SessionScoreDto>>> getScores(
-            @PathVariable Long sessionId
+            @PathVariable Long sessionId,
+            @RequestParam(required = false) Long departmentId
     ) {
-        List<SessionScoreDto> scores = feedbackSessionService.getSessionScores(sessionId);
+        List<SessionScoreDto> scores = feedbackSessionService.getSessionScores(sessionId, departmentId);
         return ResponseEntity.ok(
                 ApiResponseDto.success(HttpStatus.OK.value(), "Scores fetched successfully", scores)
         );

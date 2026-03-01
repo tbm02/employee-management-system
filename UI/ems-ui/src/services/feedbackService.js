@@ -31,8 +31,9 @@ export const assignEmployees = async (sessionId, payload) => {
 };
 
 // ── Session scores ─────────────────────────────────────────────────────────
-export const getSessionScores = async (sessionId) => {
-    const res = await api.get(`/feedback/sessions/${sessionId}/scores`);
+export const getSessionScores = async (sessionId, departmentId) => {
+    const params = departmentId ? { departmentId } : {};
+    const res = await api.get(`/feedback/sessions/${sessionId}/scores`, { params });
     return res.data;
 };
 

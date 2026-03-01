@@ -21,5 +21,5 @@ public interface FeedbackSessionService {
             Long managerTemplateId
     );
 
-    List<SessionScoreDto> getSessionScores(Long sessionId);
+    List<SessionScoreDto> getSessionScores(Long sessionId, Long departmentId);
 }

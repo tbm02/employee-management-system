@@ -11,6 +11,8 @@ import com.agile.ems.feedback.repository.SessionManagerReviewRepository;
 import com.agile.ems.feedback.repository.SessionPeerReviewRepository;
 import com.agile.ems.feedback.repository.SessionSelfReviewRepository;
 import com.agile.ems.feedback.repository.SessionUserRepository;
+import com.agile.ems.departments.Repository.DepartmentRepository;
+import com.agile.ems.departments.Department;
 import com.agile.ems.user.Repository.UserRepository;
 import com.agile.ems.user.entity.User;
 import com.agile.ems.utils.MailService;
@@ -47,6 +49,7 @@ public class FeedbackSessionServiceImpl implements FeedbackSessionService {
     private final SessionPeerReviewRepository   peerReviewRepository;
     private final SessionManagerReviewRepository managerReviewRepository;
     private final UserRepository                userRepository;
+    private final DepartmentRepository          departmentRepository;
     private final MailService                   mailService;
 
     // ── List sessions (pageable) ────────────────────────────────────────────
@@ -127,16 +130,26 @@ public class FeedbackSessionServiceImpl implements FeedbackSessionService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<SessionScoreDto> getSessionScores(Long sessionId) {
+    public List<SessionScoreDto> getSessionScores(Long sessionId, Long departmentId) {
         feedbackSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found: " + sessionId));
 
         List<SessionUser> sessionUsers = sessionUserRepository.findBySessionId(sessionId);
+
+        // Build department name lookup map (one DB call for all depts)
+        Map<Long, String> deptNameMap = departmentRepository.findAll().stream()
+                .collect(Collectors.toMap(Department::getId, Department::getName));
+
         List<SessionScoreDto> result = new ArrayList<>();
 
         for (SessionUser su : sessionUsers) {
             Long suId = su.getId();
             User emp  = su.getEmployee();
+
+            // Optional department filter
+            if (departmentId != null && !departmentId.equals(emp.getDepartmentId())) {
+                continue;
+            }
 
             Double selfAvg    = dummyOrReal(selfReviewRepository.avgScoreBySessionUserId(suId),    suId, 0.0);
             Double peerAvg    = dummyOrReal(peerReviewRepository.avgScoreBySessionUserId(suId),    suId, 1.0);
@@ -148,11 +161,17 @@ public class FeedbackSessionServiceImpl implements FeedbackSessionService {
 
             Double weighted = weightedScore(selfNorm, peerNorm, managerNorm);
 
+            String deptName = emp.getDepartmentId() != null
+                    ? deptNameMap.getOrDefault(emp.getDepartmentId(), "Dept #" + emp.getDepartmentId())
+                    : null;
+
             result.add(SessionScoreDto.builder()
                     .employeeId(emp.getId())
                     .empId(emp.getEmpId())
                     .firstName(emp.getFirstName())
                     .lastName(emp.getLastName())
+                    .departmentId(emp.getDepartmentId())
+                    .departmentName(deptName)
                     .selfAvg(round2(selfAvg))
                     .peerAvg(round2(peerAvg))
                     .managerAvg(round2(managerAvg))
