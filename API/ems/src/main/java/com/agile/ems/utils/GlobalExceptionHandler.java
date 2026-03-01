@@ -26,7 +26,8 @@ public class GlobalExceptionHandler {
             IllegalArgumentException.class
     })
     public ResponseEntity<ApiResponseDto<Object>> handleBadRequest(Exception ex) {
-        if (ex instanceof MethodArgumentNotValidException validationException) {
+        if (ex instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException validationException = (MethodArgumentNotValidException) ex;
             Map<String, String> errors = new HashMap<>();
             for (FieldError fieldError : validationException.getBindingResult().getFieldErrors()) {
                 errors.put(fieldError.getField(), fieldError.getDefaultMessage());

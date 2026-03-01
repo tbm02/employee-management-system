@@ -46,10 +46,10 @@ public class Goal extends EntityAuditInfo implements Serializable {
 
     private Boolean isCompleted = false;
 
-    @PrePersist
-    public void onCreate() {
-        if (status == null) {
-            status = GoalStatus.DRAFT;
-        }
-    }
+//    @PrePersist
+//    public void onCreate() {
+//        if (status == null) {
+//            status = GoalStatus.DRAFT;
+//        }
+//    }
 }
