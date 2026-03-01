@@ -1,0 +1,11 @@
+/* Minimal global overrides */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Calendar tweaks */
+.rbc-calendar {
+  font-size: 0.85rem;
+}
