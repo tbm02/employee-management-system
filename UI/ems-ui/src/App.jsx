@@ -7,6 +7,7 @@ import ChangePasswordPage from './pages/ChangePasswordPage';
 import PersonalDetailsPage from './pages/PersonalDetailsPage';
 import DashboardPage from './pages/DashboardPage';
 import CalendarPage from './pages/CalendarPage';
+import GoalsPage from './pages/GoalsPage';
 import UserManagementPage from './pages/UserManagementPage';
 import DepartmentManagementPage from './pages/DepartmentManagementPage';
 
@@ -46,6 +47,7 @@ function App() {
           >
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/goals" element={<GoalsPage />} />
             <Route
               path="/users"
               element={

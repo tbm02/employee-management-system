@@ -18,6 +18,9 @@ export default function Sidebar() {
                 <NavLink to="/calendar" className={linkClass}>
                     <i className="bi bi-calendar3 me-2"></i>Calendar
                 </NavLink>
+                <NavLink to="/goals" className={linkClass}>
+                    <i className="bi bi-bullseye me-2"></i>Goals
+                </NavLink>
                 {isAdminOrHR && (
                     <>
                         <NavLink to="/users" className={linkClass}>
