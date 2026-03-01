@@ -15,7 +15,7 @@ public class FlywaySchemaGenerator {
 
 
 
-        String migrationName = "department_entity_creation";
+        String migrationName = "feedback_manager";
 
         String timestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));

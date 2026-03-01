@@ -1,12 +1,15 @@
 package com.agile.ems.feedback.service;
 
 import com.agile.ems.feedback.controller.AssignSessionEmployeesRequest.EmployeeAssignment;
+import com.agile.ems.feedback.dto.SessionScoreDto;
 import com.agile.ems.feedback.entity.FeedbackSession;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface FeedbackSessionService {
 
-    List<FeedbackSession> getSessions();
+    Page<FeedbackSession> getSessions(Pageable pageable);
 
     FeedbackSession createSession(String name, int month, int year);
 
@@ -17,4 +20,6 @@ public interface FeedbackSessionService {
             Long peerTemplateId,
             Long managerTemplateId
     );
+
+    List<SessionScoreDto> getSessionScores(Long sessionId);
 }
