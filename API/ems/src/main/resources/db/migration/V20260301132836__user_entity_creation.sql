@@ -15,27 +15,24 @@ CREATE TABLE users (
                            department_id BIGINT,
                            enabled BOOLEAN DEFAULT TRUE,
                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-                           CONSTRAINT fk_department
-                               FOREIGN KEY (department_id)
-                                   REFERENCES departments(id)
-                                   ON DELETE SET NULL
+                           created_by BIGINT,
+                           modified_at TIMESTAMP,
+                           modified_by BIGINT,
+                           CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES departments(id)  ON DELETE SET NULL
 );
 
 CREATE TABLE user_details (
                                   id BIGSERIAL PRIMARY KEY,
-
-                                  employee_id BIGINT NOT NULL UNIQUE,
-
+                                  user_id BIGINT NOT NULL UNIQUE,
                                   phone_number VARCHAR(20),
                                   address VARCHAR(255),
                                   date_of_birth DATE,
                                   joining_date DATE,
-
-                                  CONSTRAINT fk_employee
-                                      FOREIGN KEY (employee_id)
-                                          REFERENCES employees(id)
-                                          ON DELETE CASCADE
+                                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                  created_by BIGINT,
+                                  modified_at TIMESTAMP,
+                                  modified_by BIGINT,
+                                  CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 
