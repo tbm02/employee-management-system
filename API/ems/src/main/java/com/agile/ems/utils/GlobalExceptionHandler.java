@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
         log.error("Internal server error: {}", ex.getMessage(), ex);
         ApiResponseDto<Object> response = ApiResponseDto.failure(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                ex.getMessage() != null ? ex.getMessage() : "Internal server error",
+                "Internal server error",
                 null
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
