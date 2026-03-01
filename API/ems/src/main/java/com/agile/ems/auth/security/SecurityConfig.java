@@ -45,9 +45,9 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) ->
-                                writeErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Unauthorized"))
+                                writeErrorResponse(response, HttpStatus.UNAUTHORIZED.value(), "Unauthorized"))
                         .accessDeniedHandler((request, response, accessDeniedException) ->
-                                writeErrorResponse(response, HttpStatus.BAD_REQUEST.value(), "Access denied"))
+                                writeErrorResponse(response, HttpStatus.FORBIDDEN.value(), "Access denied"))
                 );
 
         return http.build();
