@@ -10,6 +10,9 @@ import CalendarPage from './pages/CalendarPage';
 import GoalsPage from './pages/GoalsPage';
 import UserManagementPage from './pages/UserManagementPage';
 import DepartmentManagementPage from './pages/DepartmentManagementPage';
+import AppraisalsPage from './pages/AppraisalsPage';
+import SessionScoresPage from './pages/SessionScoresPage';
+import MyReviewsPage from './pages/MyReviewsPage';
 
 function App() {
   return (
@@ -61,6 +64,23 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
                   <DepartmentManagementPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/appraisals/my-reviews" element={<MyReviewsPage />} />
+            <Route
+              path="/appraisals"
+              element={
+                <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
+                  <AppraisalsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/appraisals/:sessionId/scores"
+              element={
+                <ProtectedRoute allowedRoles={['ADMIN', 'HR']}>
+                  <SessionScoresPage />
                 </ProtectedRoute>
               }
             />

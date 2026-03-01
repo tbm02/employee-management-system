@@ -21,6 +21,9 @@ export default function Sidebar() {
                 <NavLink to="/goals" className={linkClass}>
                     <i className="bi bi-bullseye me-2"></i>Goals
                 </NavLink>
+                <NavLink to="/appraisals/my-reviews" className={linkClass}>
+                    <i className="bi bi-star me-2"></i>My Reviews
+                </NavLink>
                 {isAdminOrHR && (
                     <>
                         <NavLink to="/users" className={linkClass}>
@@ -28,6 +31,9 @@ export default function Sidebar() {
                         </NavLink>
                         <NavLink to="/departments" className={linkClass}>
                             <i className="bi bi-diagram-3 me-2"></i>Departments
+                        </NavLink>
+                        <NavLink to="/appraisals" className={linkClass}>
+                            <i className="bi bi-clipboard-check me-2"></i>Appraisals
                         </NavLink>
                     </>
                 )}

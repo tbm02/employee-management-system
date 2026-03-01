@@ -32,6 +32,9 @@ export default function AppNavbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/calendar">Calendar</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/appraisals/my-reviews">My Reviews</Link>
+                        </li>
                         {(user?.role === 'ADMIN' || user?.role === 'HR') && (
                             <>
                                 <li className="nav-item">
@@ -39,6 +42,9 @@ export default function AppNavbar() {
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/departments">Departments</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/appraisals">Appraisals</Link>
                                 </li>
                             </>
                         )}

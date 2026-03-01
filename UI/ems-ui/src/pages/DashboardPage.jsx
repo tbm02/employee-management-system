@@ -57,13 +57,6 @@ export default function DashboardPage() {
                     </div>
                 </div>
             </div>
-
-            <div className="mt-4 p-3 bg-light rounded">
-                <h6 className="text-muted">Quick Info</h6>
-                <p className="mb-0 text-muted">
-                    {dashboard?.note || 'This dashboard will show real-time stats once the modules are connected.'}
-                </p>
-            </div>
         </div>
     );
 }
