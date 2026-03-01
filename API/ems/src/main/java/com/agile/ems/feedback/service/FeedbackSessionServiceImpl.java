@@ -138,9 +138,9 @@ public class FeedbackSessionServiceImpl implements FeedbackSessionService {
             Long suId = su.getId();
             User emp  = su.getEmployee();
 
-            Double selfAvg    = selfReviewRepository.avgScoreBySessionUserId(suId);
-            Double peerAvg    = peerReviewRepository.avgScoreBySessionUserId(suId);
-            Double managerAvg = managerReviewRepository.avgScoreBySessionUserId(suId);
+            Double selfAvg    = dummyOrReal(selfReviewRepository.avgScoreBySessionUserId(suId),    suId, 0.0);
+            Double peerAvg    = dummyOrReal(peerReviewRepository.avgScoreBySessionUserId(suId),    suId, 1.0);
+            Double managerAvg = dummyOrReal(managerReviewRepository.avgScoreBySessionUserId(suId), suId, 2.0);
 
             Double selfNorm    = normalise(selfAvg);
             Double peerNorm    = normalise(peerAvg);
@@ -182,6 +182,18 @@ public class FeedbackSessionServiceImpl implements FeedbackSessionService {
     /** Divides raw avg by MAX_SCORE (5). Returns null if input is null. */
     private Double normalise(Double avg) {
         return avg == null ? null : avg / MAX_SCORE;
+    }
+
+    /**
+     * If no reviews have been submitted yet, generate a deterministic pseudo-random
+     * dummy score (seeded on the SessionUser id) so the score view is always populated
+     * during development / demo. Remove this method when going to production.
+     */
+    private Double dummyOrReal(Double real, Long seed, double shift) {
+        if (real != null) return real;
+        // Deterministic but varied across employees; range ≈ 2.5–4.8
+        double base = 2.5 + ((seed * 17 + (long)(shift * 100)) % 23) * 0.1;
+        return Math.min(5.0, Math.round(base * 10.0) / 10.0);
     }
 
     /**
